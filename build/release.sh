@@ -50,7 +50,7 @@ else
 fi
 
 # Prerequisite for Multi-Arch via QEM
-# docker run --privileged --rm tonistiigi/binfmt --install all
+ docker run --privileged --rm tonistiigi/binfmt --install all
 
 echo "Release from branch $BRANCH GeoServer $VERSION as $TAG"
 
@@ -64,8 +64,10 @@ if [[ $1 == *build* ]]; then
     echo
     if [[ "$BRANCH" == "main" ]]; then
       echo "docker build --build-arg GS_VERSION=$VERSION --build-arg GS_BUILD=$BUILD -t $TAG ."
+      echo "docker build --platform linux/amd64,linux/arm64 --build-arg GS_VERSION=$VERSION --build-arg GS_BUILD=$BUILD -t $TAG ."
       # todo: --no-cache-filter download,install
       docker build \
+        --platform linux/amd64,linux/arm64 \
         --build-arg WAR_ZIP_URL=https://build.geoserver.org/geoserver/main/geoserver-main-latest-war.zip \
         --build-arg STABLE_PLUGIN_URL=https://build.geoserver.org/geoserver/main/ext-latest \
         --build-arg COMMUNITY_PLUGIN_URL=https://build.geoserver.org/geoserver/main/community-latest \
@@ -73,8 +75,9 @@ if [[ $1 == *build* ]]; then
         --build-arg GS_BUILD=$BUILD \
         -t $TAG .
     else
-      echo "docker build --build-arg GS_VERSION=$VERSION --build-arg GS_BUILD=$BUILD -t $TAG ."
+      echo "docker build --platform linux/amd64,linux/arm64 --build-arg GS_VERSION=$VERSION --build-arg GS_BUILD=$BUILD -t $TAG ."
       docker build \
+        --platform linux/amd64,linux/arm64 \
         --build-arg WAR_ZIP_URL=https://build.geoserver.org/geoserver/$BRANCH/geoserver-$BRANCH-latest-war.zip \
         --build-arg STABLE_PLUGIN_URL=https://build.geoserver.org/geoserver/$BRANCH/ext-latest \
         --build-arg COMMUNITY_PLUGIN_URL=https://build.geoserver.org/geoserver/$BRANCH/community-latest \
@@ -83,8 +86,9 @@ if [[ $1 == *build* ]]; then
         -t $TAG .
     fi
   else
-    echo "docker build --build-arg GS_VERSION=$VERSION --build-arg GS_BUILD=$BUILD -t $TAG ."
+    echo "docker build --platform linux/amd64,linux/arm64 --build-arg GS_VERSION=$VERSION --build-arg GS_BUILD=$BUILD -t $TAG ."
     docker build \
+      --platform linux/amd64,linux/arm64 \
       --build-arg GS_VERSION=$VERSION \
       --build-arg GS_BUILD=$BUILD \
       -t $TAG .
