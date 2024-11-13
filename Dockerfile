@@ -47,7 +47,11 @@ ENV SKIP_DEMO_DATA=false
 ENV STABLE_EXTENSIONS=''
 ENV STABLE_PLUGIN_URL=$STABLE_PLUGIN_URL
 ENV WAR_ZIP_URL=$WAR_ZIP_URL
-ENV WEBAPP_CONTEXT=geoserver
+ENV WEBAPP_CONTEXT=
+ENV PROXY_BASE_URL=http://localhost:8080/geoserver/
+ENV GEOSERVER_WEB_UI_LOCATION=http://localhost:8080/geoserver/
+ENV GEOSERVER_PUBLIC_LOCATION=http://localhost:8080/geoserver/
+ENV GEOSERVER_LOCATION=http://localhost:8080/geoserver/
 
 # ENV JDK_JAVA_OPTIONS=--add-exports=java.desktop/sun.awt.image=ALL-UNNAMED \
 #    --add-opens=java.base/java.lang=ALL-UNNAMED \
@@ -77,7 +81,10 @@ ENV CATALINA_OPTS="\$EXTRA_JAVA_OPTS \
     -D-XX:SoftRefLRUPolicyMSPerMB=36000 \
     -Xbootclasspath/a:$CATALINA_HOME/lib/marlin.jar \
     -Dsun.java2d.renderer=sun.java2d.marlin.DMarlinRenderingEngine \
-    -Dorg.geotools.coverage.jaiext.enabled=true"
+    -Dorg.geotools.coverage.jaiext.enabled=true \
+    -DGEOSERVER_CSRF_DISABLED=true \
+    -DPRINT_BASE_URL=http://localhost:8080/geoserver/pdf \
+    -DALLOW_ENV_PARAMETRIZATION=true"
 
 WORKDIR /tmp
 
